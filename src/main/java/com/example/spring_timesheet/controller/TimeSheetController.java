@@ -1,0 +1,59 @@
+package com.example.spring_timesheet.controller;
+
+import com.example.spring_timesheet.model.Timesheet;
+import com.example.spring_timesheet.model.serevice.TimesheetService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/timesheet") // /timesheet будет добавлять в каждый адрес
+public class TimeSheetController {
+    //region Field
+    private final TimesheetService timesheetService;
+    //endregion
+
+    //region Constructor
+    public TimeSheetController(TimesheetService timesheetService) {
+        this.timesheetService = timesheetService;
+    }
+    //endregion
+
+    //region Method get
+    @GetMapping("/{id}")
+    public ResponseEntity<Timesheet> get(@PathVariable long id) {
+        Timesheet byId = timesheetService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(byId);
+    }
+    //endregion
+
+    //region Method getAll
+    @GetMapping("/")
+    public ResponseEntity<List<Timesheet>> getAll() {
+        return ResponseEntity.ok(timesheetService.getAll());
+    }
+
+    //endregion
+
+    //region Method create
+    @PostMapping("/")
+    public ResponseEntity<Timesheet> create(@RequestBody Timesheet timesheet) {
+        timesheet = timesheetService.create(timesheet);
+        return ResponseEntity.status(HttpStatus.CREATED).body(timesheet);
+    }
+
+    //endregion
+
+    //region Method delete
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        timesheetService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    //endregion
+
+
+}
