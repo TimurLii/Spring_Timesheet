@@ -1,4 +1,4 @@
-package com.example.spring_timesheet.model.serevice;
+package com.example.spring_timesheet.model.serevice.projectService;
 
 import com.example.spring_timesheet.model.Project;
 import com.example.spring_timesheet.repository.ProjectRepository;
@@ -35,6 +35,11 @@ public class ProjectService {
 
     public Optional<Project> findById(Long projectId) {
         return Optional.ofNullable(projectRepository.getByID(projectId));
+
+    }
+
+    public List<Project> findAll() {
+        return projectRepository.findAll();
 
     }
     //endregion C

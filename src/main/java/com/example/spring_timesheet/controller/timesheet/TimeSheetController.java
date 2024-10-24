@@ -1,14 +1,13 @@
-package com.example.spring_timesheet.controller;
+package com.example.spring_timesheet.controller.timesheet;
 
 import com.example.spring_timesheet.model.Timesheet;
-import com.example.spring_timesheet.model.serevice.TimesheetService;
+import com.example.spring_timesheet.model.serevice.timesheetSerevice.TimesheetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/timesheet") // /timesheet будет добавлять в каждый адрес
@@ -59,8 +58,6 @@ public class TimeSheetController {
     }
 
     //endregion
-
-
 
 
 }

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home / Project Page</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Идентификатор записи</th>
+        <th>Название проекта</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="project : ${projects}">
+        <td><span th:text="${project.id}"></span></td>
+        <td><span th:text="${project.nameProject}"></span></td>
+<!--        <td><a th:href="@{'/timesheets/{id} '(id=${timesheet.timesheetId})}">Перейти к записи</a></td>-->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

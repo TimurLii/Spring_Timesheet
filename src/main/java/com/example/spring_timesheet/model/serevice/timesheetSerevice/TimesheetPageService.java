@@ -1,8 +1,9 @@
-package com.example.spring_timesheet.model.serevice;
+package com.example.spring_timesheet.model.serevice.timesheetSerevice;
 
-import com.example.spring_timesheet.controller.TimesheetPageDto;
+import com.example.spring_timesheet.controller.timesheet.TimesheetPageDto;
 import com.example.spring_timesheet.model.Project;
 import com.example.spring_timesheet.model.Timesheet;
+import com.example.spring_timesheet.model.serevice.projectService.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class TimesheetPageService {
                 .orElseThrow();
 
         TimesheetPageDto timesheetPageDto = new TimesheetPageDto();
+        timesheetPageDto.setProjectId(project.getId());
         timesheetPageDto.setProjectName(project.getNameProject());
         timesheetPageDto.setTimesheetId(String.valueOf(timesheet.getId()));
         timesheetPageDto.setTimesheetMinutes(String.valueOf(timesheet.getMinutes()));

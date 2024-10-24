@@ -17,15 +17,17 @@
         <th>Минут потрачено</th>
         <th>Дата записи</th>
         <th>Перейти к записи</th>
+        <th>Перейти к проекту </th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="timesheet : ${timesheets}">
-        <td><span th:text="${timesheet.timesheetId}"></span></td>
+        <td><span th:text="${timesheet.projectName}"></span></td>
         <td><span th:text="${timesheet.projectName}"></span></td>
         <td><span th:text="${timesheet.timesheetMinutes}"></span></td>
         <td><span th:text="${timesheet.timesheetCreatedAt}"></span></td>
         <td><a th:href="@{'/timesheets/{id} '(id=${timesheet.timesheetId})}">Перейти к записи</a></td>
+        <td><a th:href="@{'/projects/{id} '(id=${timesheet.projectId})}">Перейти к проекту</a></td>
     </tr>
     </tbody>
 </table>

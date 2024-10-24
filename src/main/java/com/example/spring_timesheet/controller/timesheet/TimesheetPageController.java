@@ -1,7 +1,7 @@
-package com.example.spring_timesheet.controller;
+package com.example.spring_timesheet.controller.timesheet;
 
 
-import com.example.spring_timesheet.model.serevice.TimesheetPageService;
+import com.example.spring_timesheet.model.serevice.timesheetSerevice.TimesheetPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

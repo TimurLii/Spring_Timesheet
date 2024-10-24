@@ -1,13 +1,13 @@
 package com.example.spring_timesheet.repository;
 
 import com.example.spring_timesheet.model.Project;
-import com.example.spring_timesheet.model.Timesheet;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 @Component
 public class ProjectRepository {
@@ -63,7 +63,15 @@ public class ProjectRepository {
 
         return project ;
     }
+
+    public List<Project> findAll() {
+            Predicate<Project> filter= it->true;
+
+
+            return projects.stream()
+                    .filter(filter)
+                    .toList();
+        }
+    }
     //endregion
 
-
-}

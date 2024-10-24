@@ -1,9 +1,8 @@
-package com.example.spring_timesheet.model.serevice;
+package com.example.spring_timesheet.model.serevice.timesheetSerevice;
 
 import com.example.spring_timesheet.model.Timesheet;
 import com.example.spring_timesheet.repository.ProjectRepository;
 import com.example.spring_timesheet.repository.TimesheetRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
