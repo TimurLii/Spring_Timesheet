@@ -1,6 +1,7 @@
 package com.example.spring_timesheet.repository;
 
 import com.example.spring_timesheet.model.Project;
+import com.example.spring_timesheet.model.Timesheet;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Component
 public class ProjectRepository {
     //region Field
-    private static long sequence = 1l;
+    private static Long sequence = 1l;
     private final List<Project> projects = new ArrayList<>();
     //endregion
 
@@ -40,7 +41,7 @@ public class ProjectRepository {
     //endregion
 
     //region Method delete
-    public ResponseEntity<Void> delete(long id) {
+    public ResponseEntity<Void> delete(Long id) {
         projects.stream()
                 .filter(item -> Objects.equals(item.getId(), id))
                 .findFirst()
@@ -52,6 +53,15 @@ public class ProjectRepository {
         return projects.stream()
                 .filter(item -> Objects.equals(item.getId(), projectId))
                 .findFirst().get();
+    }
+
+    public Project getByID(Long projectId) {
+        Project project = projects.stream()
+                .filter(it -> Objects.equals((Long)it.getId(), projectId))
+                .findFirst()
+                .get();
+
+        return project ;
     }
     //endregion
 

@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/timesheet") // /timesheet будет добавлять в каждый адрес
@@ -23,7 +25,7 @@ public class TimeSheetController {
 
     //region Method get
     @GetMapping("/{id}")
-    public ResponseEntity<Timesheet> get(@PathVariable long id) {
+    public ResponseEntity<Timesheet> get(@PathVariable Long id) {
         Timesheet byId = timesheetService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(byId);
     }
@@ -31,7 +33,10 @@ public class TimeSheetController {
 
     //region Method getAll
     @GetMapping("/")
-    public ResponseEntity<List<Timesheet>> getAll() {
+    public ResponseEntity<List<Timesheet>> getAll(
+            @RequestParam(required = false) LocalDate createdAtBefore
+            , @RequestParam(required = false) LocalDate localAtAfter
+    ) {
         return ResponseEntity.ok(timesheetService.getAll());
     }
 
@@ -48,12 +53,14 @@ public class TimeSheetController {
 
     //region Method delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         timesheetService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     //endregion
+
+
 
 
 }

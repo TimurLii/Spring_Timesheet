@@ -22,7 +22,7 @@ public class ProjectController {
 
     //region Method get
     @GetMapping("/{id}")
-    public ResponseEntity<Project> get(@PathVariable long id) {
+    public ResponseEntity<Project> get(@PathVariable Long id) {
         Project byId = projectService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(byId);
     }
@@ -47,7 +47,7 @@ public class ProjectController {
 
     //region Method delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         projectService.delete(id);
         return ResponseEntity.noContent().build();
     }
