@@ -18,11 +18,11 @@ public class SpringTimeSheetApplication {
         ApplicationContext ctx = SpringApplication.run(SpringTimeSheetApplication.class, args);
         TimesheetRepository timesheetRepository = ctx.getBean(TimesheetRepository.class);
         ProjectRepository projectRepository = ctx.getBean(ProjectRepository.class);
+
         for(int i = 1; i <= 5; i++){
             Project project = new Project();
-            project.setId((long) i);
             project.setNameProject("Project # " + i);
-            projectRepository.create(project);
+            projectRepository.save(project);
         }
 
 
@@ -32,12 +32,11 @@ public class SpringTimeSheetApplication {
             createdAt = createdAt.plusDays(1);
 
             Timesheet timesheet = new Timesheet();
-            timesheet.setId((long)i);
             timesheet.setProjectId(ThreadLocalRandom.current().nextLong(1,6));
             timesheet.setCreatedAt(createdAt);
             timesheet.setMinutes(ThreadLocalRandom.current().nextInt(100, 1000 ));
 
-            timesheetRepository.create(timesheet);
+            timesheetRepository.save(timesheet);
         }
     }
 

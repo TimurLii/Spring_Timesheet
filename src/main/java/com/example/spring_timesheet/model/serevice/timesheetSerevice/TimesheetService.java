@@ -3,48 +3,64 @@ package com.example.spring_timesheet.model.serevice.timesheetSerevice;
 import com.example.spring_timesheet.model.Timesheet;
 import com.example.spring_timesheet.repository.ProjectRepository;
 import com.example.spring_timesheet.repository.TimesheetRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@Component
 public class TimesheetService {
-    private final  TimesheetRepository timesheetRepository;
+
+    private final TimesheetRepository timesheetRepository;
     private final ProjectRepository projectRepository;
 
-    public TimesheetService(TimesheetRepository timesheetRepository, ProjectRepository projectRepository) {
-        this.timesheetRepository = timesheetRepository;
+    public TimesheetService(TimesheetService timesheetService) {
+        this(timesheetService.timesheetRepository, timesheetService.projectRepository);
+    }
+
+    @Autowired
+    public TimesheetService(TimesheetRepository repository, ProjectRepository projectRepository) {
+        this.timesheetRepository = repository;
         this.projectRepository = projectRepository;
     }
 
-    public List<Timesheet> getAll() {
-        return timesheetRepository.getAll();
+    //  @Timer
+    public Optional<Timesheet> findById(Long id) {
+        return timesheetRepository.findById(id);
     }
-    public Timesheet getById(Long id) {
-        return timesheetRepository.getBuID(id);
+
+    public List<Timesheet> findAll() {
+        return findAll(null, null);
     }
+
+    public List<Timesheet> findAll(LocalDate createdAtBefore, LocalDate createdAtAfter) {
+        // FIXME: Вернуть фильтрацию
+
+        return timesheetRepository.findAll();
+    }
+
     public Timesheet create(Timesheet timesheet) {
-        if(projectRepository.find(timesheet.getProjectId())!= null){
-            return timesheetRepository.create(timesheet);
+        if (Objects.isNull(timesheet.getProjectId())) {
+            throw new IllegalArgumentException("projectId must not be null");
         }
-        return null;
+
+        if (projectRepository.findById(timesheet.getProjectId()).isEmpty()) {
+            throw new NoSuchElementException("Project with id " + timesheet.getProjectId() + " does not exists");
+        }
+
+        timesheet.setCreatedAt(LocalDate.now());
+        return timesheetRepository.save(timesheet);
     }
+
     public void delete(Long id) {
-         timesheetRepository.delete(id);
+        timesheetRepository.deleteById(id);
     }
 
-
-    public Optional<Timesheet> findById (Long id) {
-        return Optional.ofNullable(timesheetRepository.getBuID(id));
-    }
-    public List<Timesheet> findAll(LocalDate createdAtBefore,LocalDate createdAtAfter){
-        return timesheetRepository.findAll(createdAtBefore,createdAtAfter);
-    }
-    public List<Timesheet> findAll(){
-        return findAll(null,null);
+    public Timesheet getById(Long id) {
+        return timesheetRepository.getById(id);
     }
 }

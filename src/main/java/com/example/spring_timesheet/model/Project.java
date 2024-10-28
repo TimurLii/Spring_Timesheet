@@ -1,9 +1,15 @@
 package com.example.spring_timesheet.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Data
+@Entity
+@Table(name = "project")
 public class Project {
+    @Id
+    @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String nameProject;
 

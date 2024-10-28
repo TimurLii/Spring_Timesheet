@@ -1,8 +1,6 @@
 package com.example.spring_timesheet.controller.project;
 
-import com.example.spring_timesheet.controller.timesheet.TimesheetPageDto;
 import com.example.spring_timesheet.model.serevice.projectService.ProjectPageService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,28 +12,27 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/projects")
-@RequiredArgsConstructor
 public class ProjectPageController {
     private final ProjectPageService projectPageService;
 
-    @GetMapping("/{id}")
+    public ProjectPageController(ProjectPageService projectPageService) {
+        this.projectPageService = projectPageService;
+    }
+
+    @GetMapping("/view/{id}") // Измененный маршрут
     public String getProjectsPage(@PathVariable Long id, Model model) {
         Optional<ProjectPageDto> projectPageDto = projectPageService.findById(id);
-        if(projectPageDto.isEmpty()){
-            return "not-fount.html";
+        if (projectPageDto.isEmpty()) {
+            return "not-found.html"; // Исправлена опечатка
         }
         model.addAttribute("project", projectPageDto.get());
-
         return "project-page.html";
     }
 
     @GetMapping()
-    public String getAllProjects(Model model){
+    public String getAllProjects(Model model) {
         List<ProjectPageDto> projects = projectPageService.findAll();
-
-        model.addAttribute("projects" , projects);
+        model.addAttribute("projects", projects);
         return "projects-page.html";
     }
-
-
 }

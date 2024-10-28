@@ -31,12 +31,12 @@ public class TimeSheetController {
     //endregion
 
     //region Method getAll
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<Timesheet>> getAll(
             @RequestParam(required = false) LocalDate createdAtBefore
             , @RequestParam(required = false) LocalDate localAtAfter
     ) {
-        return ResponseEntity.ok(timesheetService.getAll());
+        return ResponseEntity.ok(timesheetService.findAll());
     }
 
     //endregion

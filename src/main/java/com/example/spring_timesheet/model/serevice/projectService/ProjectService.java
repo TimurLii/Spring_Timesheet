@@ -1,47 +1,47 @@
 package com.example.spring_timesheet.model.serevice.projectService;
 
 import com.example.spring_timesheet.model.Project;
+import com.example.spring_timesheet.model.Timesheet;
 import com.example.spring_timesheet.repository.ProjectRepository;
+import com.example.spring_timesheet.repository.TimesheetRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class ProjectService {
-    //region Field
+
     private final ProjectRepository projectRepository;
-    //endregion
+    private final TimesheetRepository timesheetRepository;
 
-    //region Constructor
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, TimesheetRepository timesheetRepository) {
         this.projectRepository = projectRepository;
-    }
-    //endregion
-
-    //region Method CRUD
-    public List<Project> getAll() {
-        return projectRepository.getAll();
-    }
-    public Project getById(Long id) {
-        return projectRepository.getById(id);
-    }
-    public Project create(Project project) {
-        return projectRepository.create(project);
-    }
-    public void delete(Long id) {
-        projectRepository.delete(id);
+        this.timesheetRepository = timesheetRepository;
     }
 
-    public Optional<Project> findById(Long projectId) {
-        return Optional.ofNullable(projectRepository.getByID(projectId));
-
+    public Optional<Project> findById(Long id) {
+        return projectRepository.findById(id);
     }
 
     public List<Project> findAll() {
         return projectRepository.findAll();
-
     }
-    //endregion C
 
+    //  @Recoverable
+    public Project create(Project project) {
+        return projectRepository.save(project);
+    }
+
+    public void delete(Long id) {
+        projectRepository.deleteById(id);
+    }
+
+    public List<Timesheet> getTimesheets(Long id) {
+        if (projectRepository.findById(id).isEmpty()) {
+            throw new NoSuchElementException("Project with id = " + id + " does not exists");
+        }
+        return timesheetRepository.findByProjectId(id);
+    }
 }
