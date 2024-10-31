@@ -12,6 +12,18 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String nameProject;
+    private Long employeeId;
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+
+
 
     public Long getId() {
         return id;

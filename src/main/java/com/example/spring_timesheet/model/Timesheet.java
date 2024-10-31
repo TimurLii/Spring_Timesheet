@@ -16,6 +16,7 @@ public class Timesheet {
     @EqualsAndHashCode.Include
     private Long id;
     private Long projectId;
+    private Long employeeId;
     private Integer minutes;
     private LocalDate createdAt;
 
@@ -49,5 +50,13 @@ public class Timesheet {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 }

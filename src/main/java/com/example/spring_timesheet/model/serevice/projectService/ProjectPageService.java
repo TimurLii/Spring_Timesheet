@@ -14,7 +14,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProjectPageService {
     //region Field
-    private final TimesheetService timesheetService;
     private final ProjectService projectService;
 
     //endregion
