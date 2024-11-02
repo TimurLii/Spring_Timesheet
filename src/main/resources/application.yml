@@ -1,12 +1,22 @@
+application:
+  recover:
+    no-recover-for:
+      - java.lang.IllegalArgumentException
+      - java.lang.IllegalStateException
+  logging:
+    enabled: true
+    level: WARN
+    print-args: true
+
 spring:
-  application:
-    name: timesheet
   datasource:
-    url: jdbc:h2:mem:test
-    username: admin
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/myNewDB
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    dialect:PostgresSQLDialect:
+
   jpa:
-    show-sql: true
     hibernate:
-    ddl-auto: validate
+      ddl-auto: create
+    show-sql: false

@@ -1,3 +1,20 @@
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <title>Home / Employee Page</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Номер сотрудника № #<span th:text="${employee.employeeId}"></span></h1>-->
+<!--Имя сотрудника: <span th:text="${employee.nameEmployee}"></span> <br>-->
+<!--Проект(ы) сотрудника: <span th:text="${employee.employeeProjectId}"></span> <br>-->
+<!--Табель учёта рабочего времени : <span th:text="${employee.employeeTimesheetId}"></span> <br>-->
+<!--</body>-->
+<!--</html>-->
+
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,7 +27,17 @@
 <body>
 <h1>Номер сотрудника № #<span th:text="${employee.employeeId}"></span></h1>
 Имя сотрудника: <span th:text="${employee.nameEmployee}"></span> <br>
-Проект(ы) сотрудника: <span th:text="${employee.employeeProjectId}"></span> <br>
-Табель учёта рабочего времени : <span th:text="${employee.employeeTimesheetId}"></span> <br>
+
+Проект(ы) сотрудника:
+<ul>
+    <li th:each="project : ${employee.employeeProjects}" th:text="${project.projectName}">Project Name</li>
+    <li th:if="${#lists.isEmpty(employee.employeeProjects)}">Нет назначенных проектов</li>
+</ul>
+
+Табель учёта рабочего времени:
+<ul>
+    <li th:each="timesheet : ${employee.employeeTimesheets}" th:text="'ID: ' + ${timesheet.timesheetId} + ', Проект: ' + ${timesheet.projectName} + ', Минуты: ' + ${timesheet.timesheetMinutes} + ', Дата создания: ' + ${timesheet.timesheetCreatedAt}">Timesheet Info</li>
+    <li th:if="${#lists.isEmpty(employee.employeeTimesheets)}">Нет табелей учёта рабочего времени</li>
+</ul>
 </body>
 </html>

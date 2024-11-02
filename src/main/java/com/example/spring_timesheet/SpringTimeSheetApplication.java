@@ -1,11 +1,7 @@
 package com.example.spring_timesheet;
 
-import com.example.spring_timesheet.model.Employee;
-import com.example.spring_timesheet.model.Project;
-import com.example.spring_timesheet.model.Timesheet;
-import com.example.spring_timesheet.repository.EmployeeRepository;
-import com.example.spring_timesheet.repository.ProjectRepository;
-import com.example.spring_timesheet.repository.TimesheetRepository;
+import com.example.spring_timesheet.model.*;
+import com.example.spring_timesheet.repository.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -21,61 +17,73 @@ public class SpringTimeSheetApplication {
         EmployeeRepository employeeRepository = ctx.getBean(EmployeeRepository.class);
         TimesheetRepository timesheetRepository = ctx.getBean(TimesheetRepository.class);
         ProjectRepository projectRepository = ctx.getBean(ProjectRepository.class);
+        UserRepository userRepository = ctx.getBean(UserRepository.class);
+        UserRoleRepository userRoleRepository = ctx.getBean(UserRoleRepository.class);
 
-//        Random random = new Random();
-//        for (int i = 1; i <= 5; i++) {
-//            Project project = new Project();
-//            project.setNameProject("Project # " + i);
-//            projectRepository.save(project);
-//
-//            Timesheet timesheet = new Timesheet();
-//            LocalDate createdAt = LocalDate.now();
-//            createdAt = createdAt.plusDays(1);
-//            timesheet.setProjectId(ThreadLocalRandom.current().nextLong(1, 6));
-//            timesheet.setCreatedAt(createdAt);
-//            timesheet.setMinutes(ThreadLocalRandom.current().nextInt(100, 1000));
-//            timesheetRepository.save(timesheet);
-//
-//
-//            Employee employee = new Employee();
-//            employee.setName("Employee # " + i);
-//            employee.setProjectId(project.getId());
-//            employee.setProjectId((long) ThreadLocalRandom.current().nextInt(1, 6));
-//            employee.setTimesheetId(Long.valueOf(ThreadLocalRandom.current().nextInt(1, 6)));
-//
-//            employeeRepository.save(employee);
-//
-//
-//        }
-        for (int i = 1; i <= 5; i++) {
-            Project project = new Project();
-            project.setNameProject("Project # " + i);
-            projectRepository.save(project);
-            System.out.println(project);
 
-            for (int j = 0; j < 2; j++) { // Каждому проекту добавляем 2 работника
-                Employee employee = new Employee();
-                employee.setName("Employee # " + (i * 2 + j));
-                employee.setProjectId(project.getId()); // Связываем работника с проектом
-                employeeRepository.save(employee);
+        int c = 0;
+        while (c <= 5) {
+            for (int i = 1; i <= 5; i++) {
+                Project project = new Project();
+                project.setNameProject("Project # " + i);
+                projectRepository.save(project);
+                System.out.println(project);
 
-                for (int k = 0; k < 5; k++) {
-                    Timesheet timesheet = new Timesheet();
-                    LocalDate createdAt = LocalDate.now();
-                    createdAt = createdAt.plusDays(1);
-                    timesheet.setProjectId(project.getId());
-                    timesheet.setCreatedAt(createdAt);
-                    timesheet.setMinutes(ThreadLocalRandom.current().nextInt(100, 1000));
-                    timesheet.setEmployeeId(employee.getId());
-                    timesheetRepository.save(timesheet);
-                    employee.setTimesheetId(timesheet.getId());
+                for (int j = 0; j < 2; j++) { // Каждому проекту добавляем 2 работника
+                    Employee employee = new Employee();
+                    employee.setName("Employee # " + (i * 2 + j));
+                    employee.setProjectId(project.getId()); // Связываем работника с проектом
                     employeeRepository.save(employee);
-                    project.setEmployeeId(employee.getId());
-                    projectRepository.save(project);
-                    System.out.println(project);
 
+                    for (int k = 0; k < 5; k++) {
+                        Timesheet timesheet = new Timesheet();
+                        LocalDate createdAt = LocalDate.now();
+                        createdAt = createdAt.plusDays(1);
+                        timesheet.setProjectId(project.getId());
+                        timesheet.setCreatedAt(createdAt);
+                        timesheet.setMinutes(ThreadLocalRandom.current().nextInt(100, 1000));
+                        timesheet.setEmployeeId(employee.getId());
+                        timesheetRepository.save(timesheet);
+                        employee.setTimesheetId(timesheet.getId());
+                        employeeRepository.save(employee);
+                        project.setEmployeeId(employee.getId());
+                        projectRepository.save(project);
+                        System.out.println(project);
+                        c++;
+                    }
                 }
             }
         }
+        User admin = new User();
+        admin.setLogin("admin");
+        admin.setPassword("$2a$12$NGCnVzb3BNhtJHNIE.FZMeLvd7DSMJcOGE6HV.EX1nDKIhRfuAby6");
+
+
+        User user = new User();
+        user.setLogin("user");
+        user.setPassword("$2a$12$the3O0o2F3KFMN1SmfYvy./Kz7SNMT2FG.78ouzLsrVMuQXhGJe9S  ");
+
+        User anon = new User();
+        anon.setLogin("anon");
+        anon.setPassword("$2a$12$2cEvpBb5ExHhGu4Bzwww7.1V8s7j7stw1BPPDA0XNmVIGSOnqqBUa");
+        anon = userRepository.save(anon);
+
+        admin = userRepository.save(admin);
+        user = userRepository.save(user);
+
+        UserRole adminAdminRole = new UserRole();
+        adminAdminRole.setUserId(admin.getId());
+        adminAdminRole.setRoleName(Role.ADMIN.getName());
+        userRoleRepository.save(adminAdminRole);
+
+        UserRole adminUserRole = new UserRole();
+        adminUserRole.setUserId(admin.getId());
+        adminUserRole.setRoleName(Role.USER.getName());
+        userRoleRepository.save(adminUserRole);
+
+        UserRole userUserRole = new UserRole();
+        userUserRole.setUserId(user.getId());
+        userUserRole.setRoleName(Role.USER.getName());
+        userRoleRepository.save(userUserRole);
     }
 }
