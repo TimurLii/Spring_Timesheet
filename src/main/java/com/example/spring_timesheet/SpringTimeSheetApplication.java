@@ -19,6 +19,7 @@ public class SpringTimeSheetApplication {
         ProjectRepository projectRepository = ctx.getBean(ProjectRepository.class);
         UserRepository userRepository = ctx.getBean(UserRepository.class);
         UserRoleRepository userRoleRepository = ctx.getBean(UserRoleRepository.class);
+        RoleRepository roleRepository = ctx.getBean(RoleRepository.class);
 
 
         int c = 0;
@@ -54,36 +55,61 @@ public class SpringTimeSheetApplication {
                 }
             }
         }
-        User admin = new User();
-        admin.setLogin("admin");
-        admin.setPassword("$2a$12$NGCnVzb3BNhtJHNIE.FZMeLvd7DSMJcOGE6HV.EX1nDKIhRfuAby6");
+//        User admin = new User();
+//        admin.setLogin("admin");
+//        admin.setPassword("$2a$12$NGCnVzb3BNhtJHNIE.FZMeLvd7DSMJcOGE6HV.EX1nDKIhRfuAby6");
+//
+//
+//        User user = new User();
+//        user.setLogin("user");
+//        user.setPassword("$2a$12$the3O0o2F3KFMN1SmfYvy./Kz7SNMT2FG.78ouzLsrVMuQXhGJe9S  ");
+//
+//        User anon = new User();
+//        anon.setLogin("anon");
+//        anon.setPassword("$2a$12$2cEvpBb5ExHhGu4Bzwww7.1V8s7j7stw1BPPDA0XNmVIGSOnqqBUa");
+//        anon = userRepository.save(anon);
+//
+//        admin = userRepository.save(admin);
+//        user = userRepository.save(user);
 
+        Role roleAdmin = new Role("admin");
+        roleAdmin = roleRepository.save(roleAdmin);
+
+        Role roleUser = new Role("user");
+        roleUser = roleRepository.save(roleUser);
+
+        createUser(1L, roleRepository, userRepository,"admin","$2a$12$NGCnVzb3BNhtJHNIE.FZMeLvd7DSMJcOGE6HV.EX1nDKIhRfuAby6");
+        createUser(2L, roleRepository, userRepository,"user","$2a$12$the3O0o2F3KFMN1SmfYvy./Kz7SNMT2FG.78ouzLsrVMuQXhGJe9S  ");
+        createUser(2L, roleRepository, userRepository,"anon","$2a$12$2cEvpBb5ExHhGu4Bzwww7.1V8s7j7stw1BPPDA0XNmVIGSOnqqBUa");
+
+
+//        UserRole adminAdminRole = new UserRole();
+//        adminAdminRole.setRole(admin.getRole());
+////        adminAdminRole.setRole(roleAdmin);
+//        userRoleRepository.save(adminAdminRole);
+//
+//        UserRole adminUserRole = new UserRole();
+//        adminUserRole.setRole(admin.getRole());
+////        adminUserRole.setRole(roleUser);
+//        userRoleRepository.save(adminUserRole);
+//
+//        UserRole userUserRole = new UserRole();
+//        userUserRole.setRole(user.getRole());
+////        userUserRole.setRole(roleUser);
+//        userRoleRepository.save(userUserRole);
+
+
+
+    }
+    public static void createUser (Long roleId, RoleRepository roleRepository, UserRepository userRepository, String login,String password) {
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
 
         User user = new User();
-        user.setLogin("user");
-        user.setPassword("$2a$12$the3O0o2F3KFMN1SmfYvy./Kz7SNMT2FG.78ouzLsrVMuQXhGJe9S  ");
-
-        User anon = new User();
-        anon.setLogin("anon");
-        anon.setPassword("$2a$12$2cEvpBb5ExHhGu4Bzwww7.1V8s7j7stw1BPPDA0XNmVIGSOnqqBUa");
-        anon = userRepository.save(anon);
-
-        admin = userRepository.save(admin);
-        user = userRepository.save(user);
-
-        UserRole adminAdminRole = new UserRole();
-        adminAdminRole.setUserId(admin.getId());
-        adminAdminRole.setRoleName(Role.ADMIN.getName());
-        userRoleRepository.save(adminAdminRole);
-
-        UserRole adminUserRole = new UserRole();
-        adminUserRole.setUserId(admin.getId());
-        adminUserRole.setRoleName(Role.USER.getName());
-        userRoleRepository.save(adminUserRole);
-
-        UserRole userUserRole = new UserRole();
-        userUserRole.setUserId(user.getId());
-        userUserRole.setRoleName(Role.USER.getName());
-        userRoleRepository.save(userUserRole);
+        user.setRole(role);
+        user.setLogin(login);
+        user.setPassword(password);
+        userRepository.save(user);
     }
+
 }

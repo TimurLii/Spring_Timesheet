@@ -1,16 +1,26 @@
 package com.example.spring_timesheet.model;
 
 
+import jakarta.persistence.*;
+import lombok.Data;
 
-public enum Role {
-ADMIN("admin"), USER("user");
-private final String name;
 
-    Role(String name) {
+@Data
+@Entity
+@Table(name = "roles")
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    public Role(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public Role() {
     }
 }
+

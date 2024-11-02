@@ -5,19 +5,19 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name= "users_roles")
+@Table(name = "user_roles")
 public class UserRole {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-
-    @Column(name = "role_name")
-    private String roleName;
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
 
 

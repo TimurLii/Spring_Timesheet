@@ -16,7 +16,7 @@
    7.2.Создать ресурс /employee{id}/timesheet - получить все timesheet по сотруднику~~
 ~~8. Добавить в Timesheet поел employee типа Employee~~
 
-9. Связываем Project <-> Employee отношением ManyToOne
+~~9. Связываем Project <-> Employee отношением ManyToOne
    (То есть на проекте может быть несколько сотрудников ;
    один сотрудник может быть на нескольких проектах)~~
 
