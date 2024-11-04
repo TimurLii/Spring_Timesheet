@@ -1,5 +1,6 @@
 package com.example.spring_timesheet.model.serevice.timesheetSerevice;
 
+import com.example.spring_timesheet.aspect.Timer;
 import com.example.spring_timesheet.model.Timesheet;
 import com.example.spring_timesheet.repository.ProjectRepository;
 import com.example.spring_timesheet.repository.TimesheetRepository;
@@ -28,7 +29,7 @@ public class TimesheetService {
         this.projectRepository = projectRepository;
     }
 
-    //  @Timer
+    @Timer
     public Optional<Timesheet> findById(Long id) {
         return timesheetRepository.findById(id);
     }
@@ -60,7 +61,4 @@ public class TimesheetService {
         timesheetRepository.deleteById(id);
     }
 
-    public Timesheet getById(Long id) {
-        return timesheetRepository.getById(id);
-    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/timesheet") // /timesheet будет добавлять в каждый адрес
@@ -24,8 +25,8 @@ public class TimeSheetController {
 
     //region Method get
     @GetMapping("/{id}")
-    public ResponseEntity<Timesheet> get(@PathVariable Long id) {
-        Timesheet byId = timesheetService.getById(id);
+    public ResponseEntity<Optional<Timesheet>> get(@PathVariable Long id) {
+        Optional<Timesheet> byId = timesheetService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(byId);
     }
     //endregion

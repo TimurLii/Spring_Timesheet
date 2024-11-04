@@ -1,15 +1,18 @@
 package com.example.spring_timesheet;
 
+import com.example.spring_timesheet.aspect.Recover;
 import com.example.spring_timesheet.model.*;
 import com.example.spring_timesheet.repository.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.time.LocalDate;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class SpringTimeSheetApplication {
 
     public static void main(String[] args) {
@@ -28,7 +31,6 @@ public class SpringTimeSheetApplication {
                 Project project = new Project();
                 project.setNameProject("Project # " + i);
                 projectRepository.save(project);
-                System.out.println(project);
 
                 for (int j = 0; j < 2; j++) { // Каждому проекту добавляем 2 работника
                     Employee employee = new Employee();
@@ -49,7 +51,6 @@ public class SpringTimeSheetApplication {
                         employeeRepository.save(employee);
                         project.setEmployeeId(employee.getId());
                         projectRepository.save(project);
-                        System.out.println(project);
                         c++;
                     }
                 }
@@ -78,10 +79,9 @@ public class SpringTimeSheetApplication {
         Role roleUser = new Role("user");
         roleUser = roleRepository.save(roleUser);
 
-        createUser(1L, roleRepository, userRepository,"admin","$2a$12$NGCnVzb3BNhtJHNIE.FZMeLvd7DSMJcOGE6HV.EX1nDKIhRfuAby6");
-        createUser(2L, roleRepository, userRepository,"user","$2a$12$the3O0o2F3KFMN1SmfYvy./Kz7SNMT2FG.78ouzLsrVMuQXhGJe9S  ");
-        createUser(2L, roleRepository, userRepository,"anon","$2a$12$2cEvpBb5ExHhGu4Bzwww7.1V8s7j7stw1BPPDA0XNmVIGSOnqqBUa");
-
+        createUser(1L, roleRepository, userRepository, "admin", "$2a$12$NGCnVzb3BNhtJHNIE.FZMeLvd7DSMJcOGE6HV.EX1nDKIhRfuAby6");
+        createUser(2L, roleRepository, userRepository, "user", "$2a$12$the3O0o2F3KFMN1SmfYvy./Kz7SNMT2FG.78ouzLsrVMuQXhGJe9S");
+        createUser(2L, roleRepository, userRepository, "anon", "$2a$12$2cEvpBb5ExHhGu4Bzwww7.1V8s7j7stw1BPPDA0XNmVIGSOnqqBUa");
 
 //        UserRole adminAdminRole = new UserRole();
 //        adminAdminRole.setRole(admin.getRole());
@@ -98,18 +98,25 @@ public class SpringTimeSheetApplication {
 ////        userUserRole.setRole(roleUser);
 //        userRoleRepository.save(userUserRole);
 
-
-
+        int result = examinationAspectRecover(2, 0);
+        System.out.println("Result = " + result);
     }
-    public static void createUser (Long roleId, RoleRepository roleRepository, UserRepository userRepository, String login,String password) {
+
+    public static void createUser(Long roleId, RoleRepository roleRepository, UserRepository userRepository, String login, String password) {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new IllegalArgumentException("Role not found"));
+
 
         User user = new User();
         user.setRole(role);
         user.setLogin(login);
         user.setPassword(password);
         userRepository.save(user);
+
     }
 
+    @Recover(noRecoverFor = {NullPointerException.class})
+    public static int examinationAspectRecover(int  a , int b) {
+        return  a / b;
+    }
 }

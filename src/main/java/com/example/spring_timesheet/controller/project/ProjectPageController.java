@@ -19,11 +19,11 @@ public class ProjectPageController {
         this.projectPageService = projectPageService;
     }
 
-    @GetMapping("/view/{id}") // Измененный маршрут
+    @GetMapping("/view/{id}")
     public String getProjectsPage(@PathVariable Long id, Model model) {
         Optional<ProjectPageDto> projectPageDto = projectPageService.findById(id);
         if (projectPageDto.isEmpty()) {
-            return "not-found.html"; // Исправлена опечатка
+            return "not-found.html";
         }
         model.addAttribute("project", projectPageDto.get());
         return "project-page.html";
