@@ -12,10 +12,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
-public class SpringTimeSheetApplication {
+public class SpringTimeSheetRestApplication {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(SpringTimeSheetApplication.class, args);
+        ApplicationContext ctx = SpringApplication.run(SpringTimeSheetRestApplication.class, args);
         EmployeeRepository employeeRepository = ctx.getBean(EmployeeRepository.class);
         TimesheetRepository timesheetRepository = ctx.getBean(TimesheetRepository.class);
         ProjectRepository projectRepository = ctx.getBean(ProjectRepository.class);
