@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Timesheet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
 //    @EqualsAndHashCode.Include
     private Long id;
     private Long projectId;

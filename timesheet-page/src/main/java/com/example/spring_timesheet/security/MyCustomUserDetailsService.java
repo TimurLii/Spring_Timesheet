@@ -1,6 +1,5 @@
 //package com.example.spring_timesheet.security;
 //
-//import com.example.spring_timesheet.model.User;
 //import com.example.spring_timesheet.repository.UserRepository;
 //import com.example.spring_timesheet.repository.UserRoleRepository;
 //import lombok.RequiredArgsConstructor;

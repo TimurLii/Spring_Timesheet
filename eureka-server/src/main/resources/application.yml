@@ -1,8 +1,12 @@
+
 server:
-  port: 8080
+  port: 8761
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+
 spring:
-  application:
-    name: timesheet-rest
   datasource:
     url: jdbc:postgresql://localhost:5432/myNewDB_1
     username: postgres
@@ -11,18 +15,10 @@ spring:
 
   jpa:
     hibernate:
+
       show-sql: true
       ddl-auto: create
       properties:
         hibernate.dialect: org.hibernate.dialect.PostgresSQLDialect
         hibernate:
-          format_sql=true:
-logging:
-  level:
-    root: INFO
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    preferIpAddress: true
+          format_sql: true

@@ -4,6 +4,7 @@ import com.example.spring_timesheet.model.*;
 import com.example.spring_timesheet.repository.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
@@ -12,7 +13,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
-public class SpringTimeSheetRestApplication {
+@EnableDiscoveryClient
+ public class SpringTimeSheetRestApplication {
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(SpringTimeSheetRestApplication.class, args);
